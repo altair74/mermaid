@@ -23,4 +23,4 @@ jobs:
             --puppeteerConfig '{"args":["--no-sandbox","--disable-setuid-sandbox"]}'
           # clean up
           rm docs/diagrams/vpn-architecture.lint.svg
-
+          #clean
