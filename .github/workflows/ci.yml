@@ -16,10 +16,11 @@ jobs:
 
       - name: Lint Mermaid diagram
         run: |
-          # render to a temporary SVG (must end in .svg)
+          # render to a temp SVG (must end in .svg) with no-sandbox flags
           mmdc \
             -i docs/diagrams/vpn-architecture.mmd \
-            -o docs/diagrams/vpn-architecture.lint.svg
+            -o docs/diagrams/vpn-architecture.lint.svg \
+            --puppeteerConfig '{"args":["--no-sandbox","--disable-setuid-sandbox"]}'
           # clean up
           rm docs/diagrams/vpn-architecture.lint.svg
 
