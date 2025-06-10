@@ -16,8 +16,8 @@ jobs:
 
       - name: Lint Mermaid diagram
         run: |
-          # render to a temporary SVG (valid extension)
-          mmdc -i docs/diagrams/vpn-architecture.mmd -o temp-vpn-architecture.svg
-          # if the linter passes, we can delete the file
-          rm temp-vpn-architecture.svg
+          # Render to a temp SVG (must end in .svg)
+          mmdc -i docs/diagrams/vpn-architecture.mmd -o docs/diagrams/vpn-architecture.temp.svg
+          # Remove it right away so we don't commit stray files
+          rm docs/diagrams/vpn-architecture.temp.svg
 
