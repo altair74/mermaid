@@ -43,11 +43,15 @@ flowchart TB
     PolL["lts-policy:<br/>default-originate<br/>soft-reconfig"]
     PolA["aws-policy:<br/>default-originate<br/>soft-reconfig"]
 
-    BGP --> SessL & SessA & PolL & PolA
-    SessL --> P1["10.1.2.1"]
-    SessA --> P2["16.25.54.5"]
-    SessA --> P3["16.25.252.9"]
+    SessL --> BGP
+    SessA --> BGP
+    PolL --> BGP
+    PolA --> BGP
   end
 
-  PKI --> IKEv2 --> IPsec --> Tunnels --> Interfaces --> BGP
+  PKI --> IKEv2
+  IKEv2 --> IPsec
+  IPsec --> Tunnels
+  Tunnels --> Interfaces
+  Interfaces --> BGP
 
