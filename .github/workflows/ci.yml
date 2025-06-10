@@ -2,8 +2,11 @@ name: CI
 
 on:
   push:
+    branches: [ main ]
     paths:
       - 'docs/diagrams/**.mmd'
+      - '.github/workflows/**'
+  workflow_dispatch:
 
 jobs:
   lint_mermaid:
@@ -16,11 +19,17 @@ jobs:
 
       - name: Lint Mermaid diagram
         run: |
-          # render to a temp SVG (must end in .svg) with no-sandbox flags
+          # create a Puppeteer config file to disable the sandbox
+          cat <<EOF > puppeteer-config.json
+          {"args":["--no-sandbox","--disable-setuid-sandbox"]}
+          EOF
+
+          # render to a temp SVG (must end in .svg)
           mmdc \
             -i docs/diagrams/vpn-architecture.mmd \
             -o docs/diagrams/vpn-architecture.lint.svg \
-            --puppeteerConfig '{"args":["--no-sandbox","--disable-setuid-sandbox"]}'
+            --puppeteer-config-file puppeteer-config.json
+
           # clean up
-          rm docs/diagrams/vpn-architecture.lint.svg
-          #clean
+          rm docs/diagrams/vpn-architecture.lint.svg puppeteer-config.json
+
