@@ -1,0 +1,53 @@
+flowchart TB
+  subgraph PKI
+    TP["Trustpoint:<br/>rt-sdwan-01-TP"]
+    KP["Keypair:<br/>rt-sdwan-01-keypair"]
+    TP --> KP
+  end
+
+  subgraph IKEv2
+    Prop200["Proposal 200:<br/>AES-GCM-256<br/>PRF SHA-512<br/>Group16"]
+    Pol200["Policy 200"]
+    Prop200 --> Pol200
+
+    Prf1["Profile 1:<br/>TGW-1 @ 43.197.47.51<br/>local 20.19.180.126"]
+    Prf2["Profile 2:<br/>TGW-2 @ 43.239.235.227<br/>local 20.19.180.126"]
+    Pol200 --> Prf1
+    Pol200 --> Prf2
+  end
+
+  subgraph IPsec
+    IP200["Profile 200:<br/>esp-gcm 256<br/>pfs group16"]
+    IP201["Profile 201:<br/>esp-gcm 256<br/>pfs group16"]
+    Prf1 --> IP200
+    Prf2 --> IP201
+  end
+
+  subgraph Tunnels
+    T1["Tunnel1:<br/>16.25.54.6/30"]
+    T2["Tunnel2:<br/>16.25.252.10/30"]
+    T1 --> IP200
+    T2 --> IP201
+  end
+
+  subgraph Interfaces
+    IF1["Te0/0/0:<br/>20.19.180.126/26"]
+    IF2["Te0/0/4:<br/>10.2.248.125/29"]
+    IF3["Te0/1/0:<br/>10.1.2.2/24"]
+  end
+
+  subgraph BGP
+    BGP["BGP AS 65000"]
+    SessL["lts-session:<br/>AS 65000<br/>Timers 10/30"]
+    SessA["aws-session:<br/>AS 65001<br/>Timers 10/30"]
+    PolL["lts-policy:<br/>default-originate<br/>soft-reconfig"]
+    PolA["aws-policy:<br/>default-originate<br/>soft-reconfig"]
+
+    BGP --> SessL & SessA & PolL & PolA
+    SessL --> P1["10.1.2.1"]
+    SessA --> P2["16.25.54.5"]
+    SessA --> P3["16.25.252.9"]
+  end
+
+  PKI --> IKEv2 --> IPsec --> Tunnels --> Interfaces --> BGP
+

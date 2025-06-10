@@ -1,0 +1,8 @@
+crypto ikev2 proposal 200 
+ encryption aes-gcm-256
+ prf sha512
+ group 16
+
+crypto ikev2 policy 200 
+ proposal 200
+

@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'docs/diagrams/**.mmd'
+jobs:
+  lint_mermaid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint Mermaid diagrams
+        run: |
+          npm install -g @mermaid-js/mermaid-cli
+          mmdc -i docs/diagrams/vpn-architecture.mmd -o /dev/null

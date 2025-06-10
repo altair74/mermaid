@@ -1,0 +1,12 @@
+crypto ikev2 profile lts-us-east-1-tgw-01
+ match identity remote address 43.197.47.51 255.255.255.255 
+ identity local address 20.19.180.126
+ authentication remote pre-share key XwH1hDVL
+ authentication local pre-share key XwH1hDVL
+
+crypto ikev2 profile lts-us-east-1-tgw-02
+ match identity remote address 43.239.235.227 255.255.255.255 
+ identity local address 20.19.180.126
+ authentication remote pre-share key qkFpmd5m6HLUsIWQn9
+ authentication local pre-share key qkFpmd5m6HLUsIWQn9
+
