@@ -4,12 +4,20 @@ on:
   push:
     paths:
       - 'docs/diagrams/**.mmd'
+
 jobs:
   lint_mermaid:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Lint Mermaid diagrams
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Lint Mermaid diagram
         run: |
-          npm install -g @mermaid-js/mermaid-cli
-          mmdc -i docs/diagrams/vpn-architecture.mmd -o /dev/null
+          # render to a temporary SVG (valid extension)
+          mmdc -i docs/diagrams/vpn-architecture.mmd -o temp-vpn-architecture.svg
+          # if the linter passes, we can delete the file
+          rm temp-vpn-architecture.svg
+
