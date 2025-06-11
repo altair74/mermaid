@@ -19,8 +19,8 @@ jobs:
 
       - name: Lint Mermaid diagram
         run: |
-          # create a Puppeteer config file to disable the sandbox
-          cat <<EOF > puppeteer-config.json
+          # write a Puppeteer config to disable the sandbox
+          cat > puppeteer-config.json <<EOF
           {"args":["--no-sandbox","--disable-setuid-sandbox"]}
           EOF
 
@@ -28,7 +28,7 @@ jobs:
           mmdc \
             -i docs/diagrams/vpn-architecture.mmd \
             -o docs/diagrams/vpn-architecture.lint.svg \
-            --puppeteer-config-file puppeteer-config.json
+            --puppeteerConfigFile puppeteer-config.json
 
           # clean up
           rm docs/diagrams/vpn-architecture.lint.svg puppeteer-config.json
