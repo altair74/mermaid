@@ -37,21 +37,21 @@ flowchart TB
   end
 
   subgraph BGP
-    BGP["BGP AS 65000"]
+    AS65000["BGP AS 65000"]
     SessL["lts-session:<br/>AS 65000<br/>Timers 10/30"]
     SessA["aws-session:<br/>AS 65001<br/>Timers 10/30"]
     PolL["lts-policy:<br/>default-originate<br/>soft-reconfig"]
     PolA["aws-policy:<br/>default-originate<br/>soft-reconfig"]
 
-    SessL --> BGP
-    SessA --> BGP
-    PolL --> BGP
-    PolA --> BGP
+    SessL --> AS65000
+    SessA --> AS65000
+    PolL --> AS65000
+    PolA --> AS65000
   end
 
   PKI --> IKEv2
   IKEv2 --> IPsec
   IPsec --> Tunnels
   Tunnels --> Interfaces
-  Interfaces --> BGP
+  Interfaces --> AS65000
 
